@@ -17,6 +17,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.appproyecto.api.RestService;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -39,7 +40,23 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validarUsuario("https://personalwebdb.000webhostapp.com/validar_usu.php");
+                //validarUsuario("https://personalwebdb.000webhostapp.com/validar_usu.php");
+                RestService.getInstance(MainActivity.this).validarUsuario(edtUsuario.getText().toString(), edtPassword.getText().toString(), new RestService.ResponseListener() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(!response.isEmpty()){
+                            Intent intent= new Intent(getApplicationContext(),PrincipalActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(MainActivity.this, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -71,5 +88,9 @@ public class MainActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    protected int suma (int n1, int n2){
+        return n1 + n2;
     }
 }

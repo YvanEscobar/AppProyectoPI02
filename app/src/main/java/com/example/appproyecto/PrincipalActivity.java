@@ -32,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.appproyecto.api.RestService;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
@@ -92,7 +93,19 @@ public class PrincipalActivity extends AppCompatActivity {
         mButtonVal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                documentValidation ("https://personalwebdb.000webhostapp.com/validacion.php?nro_ruc="+mResultEt.getText()+"&nro_doc="+mResultEtFact.getText()+"");
+                //documentValidation ("https://personalwebdb.000webhostapp.com/validacion.php?nro_ruc="+mResultEt.getText()+"&nro_doc="+mResultEtFact.getText()+"");
+                RestService.getInstance(PrincipalActivity.this).documentValidation(mResultEt.getText().toString(), mResultEtFact.getText().toString(), new RestService.ResponseListener() {
+                    @Override
+                    public void onResponse(String response) {
+                        mResultEtVal.setText(response);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        mResultEtVal.setText("");
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

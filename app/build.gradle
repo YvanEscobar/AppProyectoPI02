@@ -28,7 +28,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation 'org.mockito:mockito-all:1.10.19'
+    //androidTestImplementation 'org.mockito:mockito-all:1.10.19'
 
     implementation 'com.android.support:design:29.0.0'
 
